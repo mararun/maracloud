@@ -6,7 +6,7 @@ class BaseClient
 {
     protected     $authorization = null;
     protected     $env           = null;
-    public static $developDomain = 'http://api-open.zhangliang.dev.mararun.com';
+    public static $developDomain = 'http://api-open.test.mararun.com';
     public static $onlineDomain  = 'https://api-open.mararun.com';
 
     /**
