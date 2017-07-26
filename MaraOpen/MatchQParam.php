@@ -10,9 +10,6 @@ class MatchQParam extends QParam
     public $city;
     public $name;
     public $stage;
-    public $status;
-    public $applyBeginTime;
-    public $applyEndTime;
     public $beginTime;
     public $limit;
     public $order;

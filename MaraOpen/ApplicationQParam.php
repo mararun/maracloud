@@ -4,7 +4,7 @@ namespace MaraOpen;
 
 class ApplicationQParam extends Params
 {
-    public $ownerPhone;
+    public $owner;
     public $matchEventID;
     public $limit;
     public $order;

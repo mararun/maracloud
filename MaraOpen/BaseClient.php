@@ -4,8 +4,9 @@ namespace MaraOpen;
 
 class BaseClient
 {
-    protected     $authorization = null;
-    protected     $env           = null;
+    protected $authorization = null;
+    protected $env           = null;
+
     public static $developDomain = 'http://api-open.test.mararun.com';
     public static $onlineDomain  = 'https://api-open.mararun.com';
 
@@ -49,6 +50,6 @@ class BaseClient
             'Authorization:' . $this->authorization,
         ];
 
-        return Request::get($url, $data, $headers);
+        return Request::post($url, $data, $headers);
     }
 }

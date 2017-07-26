@@ -6,7 +6,7 @@ class MatchClient extends BaseClient
 {
     /**
      * 获取Authorization Token, 此Token建议保留在本地
-     * @param $accessKey  分配的accessKey
+     * @param string $accessKey 分配的accessKey
      * @param string $env 环境变量 (develop/online),表示获取哪个环境的key
      */
     public static function getAccessToken($accessKey, $env = Env::DEVELOP)
@@ -57,14 +57,18 @@ class MatchClient extends BaseClient
 
     /**
      * 报名
+     * @param $owner   这里表示拥有者的电话号码,表示唯一的账号
+     * @param $matchID     比赛ID
      * @param $matchEventID     比赛项目ID
-     * @param $ticketDefIDs     (门票、套餐、商品)ID的集合
+     * @param $ticketDefIDs (门票、套餐、商品)ID的集合
      * @param array $runnerInfo 报名时根据比赛项目的字段配置拼接成的RunnerInfo
      */
-    public function apply($matchEventID, $ticketDefIDs, $runnerInfo = [])
+    public function apply($owner, $matchID, $matchEventID, $ticketDefIDs, $runnerInfo = [])
     {
         $url  = $this->getDomain() . '/v1/application/apply';
         $data = [
+            'owner'        => $owner,
+            'matchID'      => $matchID,
             'matchEventID' => $matchEventID,
             'ticketDefIDs' => $ticketDefIDs,
             'runnerInfo'   => $runnerInfo,
@@ -75,27 +79,29 @@ class MatchClient extends BaseClient
 
     /**
      * 修改报名
+     * @param $owner   这里表示拥有者的电话号码,表示唯一的账号
      * @param $applicationID    报名ID
      * @param array $runnerInfo 报名信息
      */
-    public function updateApplication($applicationID, $runnerInfo = [])
+    public function updateApplication($owner, $applicationID, $runnerInfo = [])
     {
-        $url              = $this->getDomain() . '/v1/application/apply';
-        $runnerInfo['id'] = $applicationID;
+        $url                 = $this->getDomain() . '/v1/application/update';
+        $runnerInfo['owner'] = $owner;
+        $runnerInfo['id']    = $applicationID;
 
         return $this->post($url, $runnerInfo);
     }
 
     /**
      * 我的报名
-     * @param $ownerPhone   这里表示拥有者的电话号码,表示唯一的账号
+     * @param $owner   这里表示拥有者的电话号码,表示唯一的账号
      * @param $matchEventID 比赛项目ID,如果为0 ,表示查询所有已报名过的列表
      */
-    public function myApplicationLists($ownerPhone, $matchEventID = 0)
+    public function myApplicationLists($owner, $matchEventID = 0)
     {
         $url   = $this->getDomain() . '/v1/application/lists';
         $param = [
-            'ownerPhone' => $ownerPhone,
+            'owner' => $owner,
         ];
 
         if ($matchEventID !== 0) {
@@ -121,13 +127,15 @@ class MatchClient extends BaseClient
 
     /**
      * 取消报名
+     * @param $owner   这里表示拥有者的电话号码,表示唯一的账号
      * @param $id 报名ID
      */
-    public function cancel($id)
+    public function cancel($owner, $id)
     {
         $url   = $this->getDomain() . '/v1/application/cancel';
         $param = [
-            'id' => $id,
+            'id'    => $id,
+            'owner' => $owner,
         ];
 
         return $this->post($url, $param);
@@ -155,19 +163,25 @@ class MatchClient extends BaseClient
      */
     public function uploadImage($filePath)
     {
-        $url  = $this->getDomain() . '/v1/uploader/upload';
-        $data = [
-            'file' => new CURLFile(realpath($filePath)),
+        $url      = $this->getDomain() . '/v1/uploader/upload';
+        $realPath = realpath($filePath);
+        $data     = [
+            'file'     => new \CURLFile($realPath),
+            'fileType' => pathinfo($realPath)['extension'],
         ];
-        $ch   = curl_init();
+        $headers  = [
+            'Authorization:' . $this->authorization,
+        ];
+        $ch       = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         $return_data = curl_exec($ch);
         curl_close($ch);
 
-        return $return_data;
+        return json_decode($return_data, true);
     }
 }
