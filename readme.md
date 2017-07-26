@@ -1,6 +1,4 @@
-#### PHP-SDK 使用说明
-
-赛事接入SDK使用说明
+#### 马拉赛事接入 PHP-SDK 使用说明
 
  ```php
 $accessKey = '*****1asd324123asd12****';
