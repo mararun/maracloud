@@ -1,3 +1,7 @@
+#### PHP-SDK 使用说明
+
+赛事接入SDK使用说明
+
  ```php
 $accessKey = '*****1asd324123asd12****';
 $env       = \MaraOpen\Env::DEVELOP;

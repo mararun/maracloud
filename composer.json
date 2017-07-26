@@ -1,0 +1,12 @@
+{
+    "name": "maracloud",
+    "require": {},
+    "autoload" : {
+        "psr-4" : {
+            "MaraOpen\\": "src/MaraOpen",
+            "MaraTest\\": "tests/"
+        }
+    }
+}
+
+
