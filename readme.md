@@ -1,6 +1,6 @@
 #### 马拉赛事接入 PHP-SDK 使用说明
 
-<a href='http://doc-open.test.mararun.com/?name=%E6%A6%82%E8%BF%B0#概述'>文档详细介绍</a>
+<a href='http://doc-open.test.mararun.com/?name=%E6%A6%82%E8%BF%B0#概述' target="_blank">API接口的文档详细介绍</a>
  ```php
 $accessKey = '*****1asd324123asd12****';
 $env       = \MaraOpen\Env::DEVELOP;
