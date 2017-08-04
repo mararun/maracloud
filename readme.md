@@ -7,16 +7,23 @@ $env       = \MaraOpen\Env::DEVELOP;
 $token     = \MaraOpen\MatchClient::getAccessToken($accessKey)['token'];
 $client    = new \MaraOpen\MatchClient($token, $env);
 
+$matchID = '4188290240783556';
+$matchType = '1';
+
 // 赛事列表
 $QParam        = new \MaraOpen\MatchQParam();
 $QParam->limit = '[0,1]';
 $result        = $client->listsMatch($QParam);
 
 // 赛事详情
-$result = $client->detailMatch('4188290240783556');
+$result = $client->detailMatch($matchID);
+
+// 获取套餐
+$result = $client->listsPackage($matchID,1);
+
 
 // 获取报名表字段配置
-result = $client->getEventFields(4188292723811529);
+$result = $client->getEventFields(4188292723811529);
 
 // 提交报名
 $owner        = 18888888888;
