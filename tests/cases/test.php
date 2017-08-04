@@ -29,13 +29,19 @@ class SDKTest extends \PHPUnit_Framework_TestCase
         return static::$client;
     }
 
-    public function testListMatch()
+   public function testListMatch()
     {
         $QParam        = new \MaraOpen\MatchQParam();
         $QParam->limit = '[0,1]';
         $result        = static::getIns()->listsMatch($QParam);
 
         $this->assertTrue(count($result['matchs']) == 1);
+    }
+
+   public function testListPackage()
+    {
+        $result  = static::getIns()->listsPackage(static::$matchID,1);
+        $this->assertTrue(count($result)>0);
     }
 
     public function testDetailMatch()

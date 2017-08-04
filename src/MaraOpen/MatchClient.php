@@ -36,8 +36,9 @@ class MatchClient extends BaseClient
      */
     public function listsPackage($matchID,$matchType)
     {
-        $url   = $this->getDomain() . '/v1/event/listPackageByType';
-        $param = $QParam->toArr();
+        $url                = $this->getDomain() . '/v1/event/listsPackage';
+        $param['matchID']   = $matchID;
+        $param['matchType'] = $matchType;
 
         return $this->get($url, $param);
     }
