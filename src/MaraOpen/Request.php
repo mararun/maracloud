@@ -22,7 +22,6 @@ class Request
         $ret  = curl_getinfo($ch);
         curl_close($ch);
         $ret['body'] = $body;
-
         return static::parse($ret);
     }
 

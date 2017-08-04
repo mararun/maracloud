@@ -18,7 +18,7 @@ class MatchClient extends BaseClient
         return Request::get($url, $params);
     }
 
-    /**
+     /**
      * 获取赛事列表
      * @param MatchQParam $QParam 查询对象,表明支持的字段
      * @return mixed|null
@@ -26,6 +26,17 @@ class MatchClient extends BaseClient
     public function listsMatch(MatchQParam $QParam)
     {
         $url   = $this->getDomain() . '/v1/match/lists';
+        $param = $QParam->toArr();
+
+        return $this->get($url, $param);
+    }
+
+   /**
+     * 获取套餐列表
+     */
+    public function listsPackage($matchID,$matchType)
+    {
+        $url   = $this->getDomain() . '/v1/event/listPackageByType';
         $param = $QParam->toArr();
 
         return $this->get($url, $param);
